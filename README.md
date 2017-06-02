@@ -1,9 +1,11 @@
 # markdown-it-asciimath
+
 Markdown-it plugin to include ascii-math.
 
 **Code block**
 
 Example input:
+
 ```md
     ```math
     1+1=2
@@ -22,7 +24,10 @@ Example input:
     Test `1+1=2` or ``2+2=4``. Optional: `math 3+3=6`.
 ```
 
+
+
 ## Usage
+
 markdown-it-asciimath converts ASCII-math to TeX and then uses KaTeX to render the math. The ASCII-math - TeX conversion is done using the [ASCIIMathML](https://github.com/mathjax/asciimathml) Scripts. The following file needs to be included:
 
 ```html
@@ -45,15 +50,19 @@ md.use(require("markdown-it-asciimath"));
 
 LaTeX math code can be rendered, too. Just use the keyword `latex` instead of `math`.
 
+
+
 ## Options
 
 Options can be specified:
+
 ``` javascript
 md.use(require("markdown-it-asciimath"), options);
 ```
 
 Now only this option is available:
 
-Name              | Description                                                          | Default
-------------------|----------------------------------------------------------------------|------------------------------------
+Name              | Description                                                        | Default
+------------------|--------------------------------------------------------------------|------------------------------------
 "useKeyword"      | Use the keywords `math` and `latex` to specify inline math syntax  | false
+
