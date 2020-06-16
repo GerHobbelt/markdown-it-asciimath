@@ -4,7 +4,7 @@ let assign = require('lodash.assign');
 let defaults = {
   useKeyword: false
 };
-var options;
+let options;
 
 function setup(md, o) {
   // use defaults if no options set
@@ -50,7 +50,7 @@ function setup(md, o) {
 
 function render(str, disp) {
   // split content
-  var arr = str.trim().split("\n\n");
+  let arr = str.trim().split('\n\n');
   let result = '';
 
   for (let i = 0; i < arr.length; i++) {
@@ -87,7 +87,7 @@ function renderElement(str, disp) {
 
 function preprocessMath(str) {
   // parse to TeX
-  var newstr = AMTparseAMtoTeX(str);
+  let newstr = AMTparseAMtoTeX(str);
 
   return newstr;
 }

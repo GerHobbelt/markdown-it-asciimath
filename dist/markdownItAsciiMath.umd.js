@@ -1,4 +1,4 @@
-/*! markdown-it-asciimath 0.1.0-1 https://github.com//GerHobbelt/markdown-it-asciimath @license MIT */
+/*! markdown-it-asciimath 1.0.0-2 https://github.com//GerHobbelt/markdown-it-asciimath @license MIT */
 
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
@@ -12,15 +12,17 @@
   let defaults = {
     useKeyword: false
   };
+  let options;
 
-  function setup(md, options) {
-    if (typeof options === 'undefined') {
-      options = defaults;
+  function setup(md, o) {
+    // use defaults if no options set
+    options = o;
+
+    if (typeof options.useKeyword === 'undefined') {
+      options.useKeyword = defaults.useKeyword;
     }
 
     let useKeyword = options.useKeyword;
-    console.log(useKeyword); //var options = assign({}, defaults, options);
-
     let defaultRender = md.renderer.rules.fence;
 
     md.renderer.rules.fence = function (tokens, idx, options, env, self) {
@@ -40,14 +42,10 @@
 
     md.renderer.rules.code_inline = function (tokens, idx, options, env, self) {
       let token = tokens[idx];
-      console.log(useKeyword);
 
       if (!useKeyword) {
-        console.log('1');
         return renderInline(token.content.trim(), false);
       }
-
-      console.log('2');
 
       if (token.content.substr(0, 4) === 'math') {
         return renderInline(token.content.substr(4).trim(), false);
@@ -61,8 +59,8 @@
 
   function render(str, disp) {
     // split content
-    let arr = str.trim().split('\n');
-    let result = ''; // render each line, skipping empty lines
+    let arr = str.trim().split('\n\n');
+    let result = '';
 
     for (let i = 0; i < arr.length; i++) {
       if (arr[i]) {
@@ -98,11 +96,8 @@
   }
 
   function preprocessMath(str) {
-    let newstr; // correct index-texts
-
-    newstr = str.replace(/_(.*?)(\s|$|=|\(|\)|\*|\/|\^)/g, '_($1)$2'); // parse to TeX
-
-    newstr = AMTparseAMtoTeX(newstr);
+    // parse to TeX
+    let newstr = AMTparseAMtoTeX(str);
     return newstr;
   }
 
