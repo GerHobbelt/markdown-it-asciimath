@@ -9,6 +9,7 @@ Example input:
 ```md
     ```math
     1+1=2
+
     varphi = int_0^10 x^2 dx
     ```
 ```
@@ -16,6 +17,8 @@ Example input:
 Output: HTML, renders to:
 
 ![math output](https://cloud.githubusercontent.com/assets/18582541/18347144/3c7e5aaa-75c4-11e6-888f-c8e6f406fdc7.png)
+
+Please note: adding a single empty line between two expressions makes them render individually. Otherwise, they are rendered as one expression (this adds support for multiline expressions like matrices).
 
 **Inline math**
 
@@ -62,7 +65,6 @@ md.use(require("markdown-it-asciimath"), options);
 
 Now only this option is available:
 
-Name              | Description                                                        | Default
-------------------|--------------------------------------------------------------------|------------------------------------
-"useKeyword"      | Use the keywords `math` and `latex` to specify inline math syntax  | false
-
+Name                    | Description                                                          | Default
+------------------------|----------------------------------------------------------------------|----------------------------------
+"useKeyword"            | Use the keywords `math` and `latex` to specify inline math syntax    | false

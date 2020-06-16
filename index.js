@@ -4,16 +4,16 @@ let assign = require('lodash.assign');
 let defaults = {
   useKeyword: false
 };
+var options;
 
-function setup(md, options) {
-  if (typeof options === 'undefined') {
-    options = defaults;
+function setup(md, o) {
+  // use defaults if no options set
+  options = o;
+  if (typeof options.useKeyword === 'undefined') {
+    options.useKeyword = defaults.useKeyword;
   }
+
   let useKeyword = options.useKeyword;
-  console.log(useKeyword);
-
-
-  //var options = assign({}, defaults, options);
   let defaultRender = md.renderer.rules.fence;
 
   md.renderer.rules.fence = function (tokens, idx, options, env, self) {
@@ -34,13 +34,9 @@ function setup(md, options) {
   md.renderer.rules.code_inline = function (tokens, idx, options, env, self) {
     let token = tokens[idx];
 
-    console.log(useKeyword);
-
     if (!useKeyword) {
-      console.log('1');
       return renderInline(token.content.trim(), false);
     }
-    console.log('2');
     if (token.content.substr(0, 4) === 'math') {
       return renderInline(token.content.substr(4).trim(), false);
     } else if (token.content.substr(0, 5) === 'latex') {
@@ -54,10 +50,9 @@ function setup(md, options) {
 
 function render(str, disp) {
   // split content
-  let arr = str.trim().split('\n');
+  var arr = str.trim().split("\n\n");
   let result = '';
 
-  // render each line, skipping empty lines
   for (let i = 0; i < arr.length; i++) {
     if (arr[i]) {
       result += '<p>' + renderElement(preprocessMath(arr[i]), disp) + '<p>';
@@ -91,13 +86,8 @@ function renderElement(str, disp) {
 }
 
 function preprocessMath(str) {
-  let newstr;
-
-  // correct index-texts
-  newstr = str.replace(/_(.*?)(\s|$|=|\(|\)|\*|\/|\^)/g, '_($1)$2');
-
   // parse to TeX
-  newstr = AMTparseAMtoTeX(newstr);
+  var newstr = AMTparseAMtoTeX(str);
 
   return newstr;
 }
